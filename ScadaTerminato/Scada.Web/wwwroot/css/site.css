@@ -1,0 +1,388 @@
+﻿/* =========================================================
+   BACKGROUND & STILI GENERALI
+   ========================================================= */
+body {
+    background: #06203f;
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+.dashboard-container {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.col {
+    margin-top: 5px;
+}
+
+.connect-group input,
+.connect-group button {
+    width: 180px; /* stessa larghezza */
+}
+
+
+
+/* =========================================================
+   STATUS PANEL
+   ========================================================= */
+.header {
+    margin-bottom: 10px;
+}
+
+.status-panel {
+    background: #0a355e;
+    border-radius: 14px;
+    padding: 25px;
+}
+
+.status-panel .title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.status-panel .title small {
+    display: block;
+    opacity: 0.7;
+}
+
+input[type=text] {
+    background-color: #7ac2ff;
+    border: 1px solid #092a4c;
+}
+
+input[type=text]:focus {
+        background-color: #7ac2ff;
+}
+
+.status-card {
+    background: #092a4c;
+    padding: 10px 12px;      /* prima era 15px */
+    border-radius: 10px;
+    text-align: center;
+}
+
+.status-card .value {
+    margin-top: 6px;
+    background: #001932;
+    padding: 6px;            /* prima era 10px */
+    border-radius: 6px;
+    font-size: 14px;         /* più compatto */
+}
+
+.status-card label {
+    font-size: 14px;         /* più piccolo */
+}
+
+
+
+/* =========================================================
+   COLORI STATO
+   ========================================================= */
+.ok {
+    color: green;
+}
+
+.notOk {
+    color: red;
+}
+
+
+/* =========================================================
+   MODULI GENERICI
+   ========================================================= */
+.module {
+    background: #092a4c;
+    padding: 22px;
+    border-radius: 14px;
+    flex: 1;
+    height: 512px;
+}
+
+
+/* =========================================================
+   CONTROLLI / LAYOUT
+   ========================================================= */
+.controls-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+
+/* =========================================================
+   BUTTONS GENERALI
+   ========================================================= */
+a.myBtn,
+a.stop,
+a.emergency {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   BUTTON MOVIMENTO
+   ========================================================= */
+.myBtn {
+    width: 120px; /* aumenta la larghezza */
+    height: 120px; /* aumenta l’altezza */
+    background: #1e6aaa;
+    border-radius: 12px;
+    font-size: 32px; /* testo più grande */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* mantiene il testo centrato */
+    margin: 0 auto; /* mantiene il pulsante centrato nel container */
+}
+
+.myBtn:hover {
+    background-color: #145b9a;
+}
+
+
+/* =========================================================
+   MODULO SICUREZZA
+   ========================================================= */
+.module.safety {
+    padding: 15px;
+    background: #092a4c;
+    border-radius: 14px;
+}
+
+.module.safety .sicurezzaContainer {
+    margin-top: 20%;
+    margin-bottom: 10%;
+}
+
+.module.safety h3 {
+    justify-self: center;
+    margin: 0;
+}
+
+.module.safety .buttons-container {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 10px 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.module.safety .buttons-container .row {
+    display: contents;
+}
+
+.module.safety .buttons-container a {
+    width: 120px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.sicurezzaContainer > .row:nth-of-type(1) > .col > .btn {
+    height: 50px;
+    padding: 10px;
+    width: 120px;
+}
+
+.sicurezzaContainer > .row:nth-of-type(2) > .col > .btn {
+    padding: 40px;
+    border-radius: 20px;
+    width: 200px;
+}
+
+
+.sicurezzaContainer > .row:nth-of-type(2) > .col > .btn-warning {
+    background-color: #ff9400;
+    border: none;
+}
+
+.sicurezzaContainer > .row:nth-of-type(2) > .col > .btn-warning:hover {
+    background-color: #cc7300;
+    transition: all 0.2s ease;
+}
+
+.sicurezzaContainer > .row:nth-of-type(2) > .col > .btn-warning:not(:hover) {
+    background-color: #ff9400;
+    transition: all 0.2s ease;
+}
+
+
+@media (max-width: 768px) {
+    .motionController {
+        display: none;
+    }
+}
+
+
+
+/* =========================================================
+   GRIGLIA MOVIMENTO XY
+   ========================================================= */
+.xy-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 120px); /* prima era 60px */
+    grid-template-rows: repeat(3, 120px); /* prima era 60px */
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.xy-grid div {
+    width: 60px;
+    height: 60px;
+}
+
+.div5 {
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   CAVO / PULSANTI SECONDARI
+   ========================================================= */
+.cavo-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.cavo-buttons a {
+    margin: 5px;
+/*    margin-top: 20%;*/
+}
+
+.cavo-body {
+    margin-top: 20%;
+    margin-bottom: 20%;
+}
+
+
+/* =========================================================
+   BUTTON DISABILITATI / SMALL
+   ========================================================= */
+.myBtnSmall {
+    background-color: grey;
+    color: white;
+    pointer-events: none;
+    width: 80px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+/* =========================================================
+   UTILITY
+   ========================================================= */
+.myMarginTop {
+    margin-top: 50px;
+/*    margin-bottom: 200px;*/
+}
+
+
+
+
+.active {
+    background-color: #1e6aaa !important; /*classe da usare per direzione voluta */
+    color: black !important;
+}
+
+
+#errorModal {
+    color: black;
+}
+
+.movement-indicator {
+    background: #092a4c;
+    padding: 18px 25px; /* meno padding verticale, più orizzontale */
+    border-radius: 14px;
+    text-align: center;
+    color: white;
+    width: 340px; /* larghezza che avevamo scelto */
+}
+
+
+
+/* Griglia XY più grande */
+.mi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 55px); /* prima 70px */
+    grid-template-rows: repeat(3, 55px); /* prima 70px */
+    gap: 8px; /* leggermente meno */
+    justify-content: center;
+    margin-bottom: 12px; /* meno spazio sotto */
+}
+
+
+/* Frecce più grandi */
+.mi-arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+    opacity: 0.3;
+    transition: 0.2s;
+    padding: 5px;
+}
+
+.mi-center {
+    background: #001932;
+    border-radius: 8px;
+}
+
+.mi-arrow.active {
+    opacity: 1;
+    color: #1e90ff;
+    font-weight: bold;
+    text-shadow: 0 0 8px #1e90ff;
+}
+
+.mi-z {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+}
+
+.mi-z .mi-arrow {
+    font-size: 22px; /* prima 26px */
+}
+
+.safety .btn-warning {
+    background-color: #ff9400;
+    border: none;
+}
+
+.safety .btn-warning:hover {
+    background-color: #cc7300;
+}
+
+@media (max-width: 900px) {
+
+    .header .col-sm-4 {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .header .btn {
+        width: 100%;
+    }
+}

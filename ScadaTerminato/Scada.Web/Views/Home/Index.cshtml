@@ -1,0 +1,254 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "SCADA Carroponte";
+}
+
+<div class="dashboard-container">
+
+    <!-- STATUS PANEL -->
+    <section class="status-panel">
+        <div class="container">
+            <div class="row">
+
+                <!-- COLONNA SINISTRA: TITOLO + CONNESSIONE + CARD -->
+                <div class="col-sm-7">
+
+                    <!-- TITOLO -->
+                    <div class="title text-start mb-3">
+                        <span class="title-icon">🔷</span>
+                        <span>SCADA Carroponte</span>
+                    </div>
+
+                    <!-- CONNESSIONE -->
+                    <form asp-action="Connect" method="post" class="d-flex gap-2 mb-2 connect-group">
+                        <input type="text" class="form-control" name="address" placeholder="IP PLC" value="@ViewBag.Address" />
+                        <button type="submit" class="btn btn-warning">Connetti</button>
+                    </form>
+
+                    <a class="btn btn-danger w-50 mb-4" asp-action="Disconnect">DISCONNETTI</a>
+
+                    <!-- CARD DI STATO -->
+                    <div class="row text-center">
+
+                        <div class="col-sm-3">
+                            <div class="status-card">
+                                <label>POS X</label>
+                                @if (!ViewBag.Movements["left"] && !ViewBag.Movements["right"])
+                                {
+                                    <div class="value notOk">FERMO</div>
+                                }
+                                else
+                                {
+                                    <div class="value ok">@(ViewBag.Movements["right"] ? "DESTRA" : "SINISTRA")</div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="status-card">
+                                <label>POS Y</label>
+                                @if (!ViewBag.Movements["forward"] && !ViewBag.Movements["back"])
+                                {
+                                    <div class="value notOk">FERMO</div>
+                                }
+                                else
+                                {
+                                    <div class="value ok">@(ViewBag.Movements["forward"] ? "AVANTI" : "INDIETRO")</div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="status-card">
+                                <label>POS Z</label>
+                                @if (!ViewBag.Movements["down"] && !ViewBag.Movements["up"])
+                                {
+                                    <div class="value notOk">FERMO</div>
+                                }
+                                else
+                                {
+                                    <div class="value ok">@(ViewBag.Movements["up"] ? "SALE" : "SCENDE")</div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="status-card">
+                                <label>STATO</label>
+                                @if (ViewBag.Status == "CONNECTED")
+                                {
+                                    <div class="value ok">@ViewBag.Status</div>
+                                }
+                                else
+                                {
+                                    <div class="value notOk">DISCONNESSO</div>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- COLONNA DESTRA: MINI-MAPPA -->
+                <div class="col-sm-5 d-flex justify-content-end align-items-start">
+                    <div class="movement-indicator">
+
+                        <div class="mi-grid">
+                            <div></div>
+                            <div class="mi-arrow @(ViewBag.Movements["forward"] ? "active" : "")">↑</div>
+                            <div></div>
+
+                            <div class="mi-arrow @(ViewBag.Movements["left"] ? "active" : "")">←</div>
+                            <div class="mi-center"></div>
+                            <div class="mi-arrow @(ViewBag.Movements["right"] ? "active" : "")">→</div>
+
+                            <div></div>
+                            <div class="mi-arrow @(ViewBag.Movements["back"] ? "active" : "")">↓</div>
+                            <div></div>
+                        </div>
+
+                        <div class="mi-z">
+                            <span class="mi-arrow @(ViewBag.Movements["up"] ? "active" : "")">↑ Z</span>
+                            <span class="mi-arrow @(ViewBag.Movements["down"] ? "active" : "")">↓ Z</span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+        <!-- MODALE ERRORE -->
+        <div class="modal fade" id="errorModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">Errore Connessione</h5>
+                    </div>
+
+                    <div class="modal-body">
+                        @ViewBag.ErrorMessage
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    <!-- CONTROLLI -->
+    <section class="controls-row">
+
+        <!-- MOVIMENTO XY -->
+        <div class="module movement">
+            <h3 class="text-center">MOVIMENTO XY</h3>
+
+            <div class="xy-grid myMarginTop">
+                <div></div>
+                <a class="myBtn" asp-action="Forward">↑</a>
+                <div></div>
+
+                <a class="myBtn" asp-action="Left">←</a>
+                <div></div>
+                <a class="myBtn" asp-action="Right">→</a>
+
+                <div></div>
+                <a class="myBtn" asp-action="Back">↓</a>
+                <div></div>
+            </div>
+        </div>
+
+        <!-- MOVIMENTO Z -->
+        <div class="module container">
+            <h3 class="text-center">MOVIMENTO Z</h3>
+            <div class="cavo-body">
+                <div class="myMarginTop">
+                    <div class="div5 cavo-buttons">
+                        <a class="myBtn" asp-action="Up">↑</a>
+                        <a class="myBtn" asp-action="Down">↓</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SICUREZZA -->
+        <div class="module safety">
+            <h3 class="text-center mb-3">STATI</h3>
+
+            <div class="container text-center mt-5">
+
+                <div class="row g-2">
+
+                    <div class="col-4">
+                        <a asp-action="Reset"
+                           class="btn btn-success w-100 py-3 d-flex flex-column justify-content-center align-items-center"
+                           style="font-weight:600;">
+                            <span style="font-size:22px;">⟳</span>
+                            <span>RESET</span>
+                        </a>
+                    </div>
+
+                    <div class="col-4">
+                        <a asp-action="Manual"
+                           class="btn btn-success w-100 py-3 d-flex flex-column justify-content-center align-items-center"
+                           style="font-weight:600;">
+                            <span style="font-size:22px;">✋</span>
+                            <span>MANUALE</span>
+                        </a>
+                    </div>
+
+                    <div class="col-4">
+                        <a asp-action="Automatic"
+                           class="btn btn-success w-100 py-3 d-flex flex-column justify-content-center align-items-center"
+                           style="font-weight:600;">
+                            <span style="font-size:22px;">⚙️</span>
+                            <span>AUTOMATICO</span>
+                        </a>
+                    </div>
+
+                    <div class="col-12">
+                        <a asp-action="Stop"
+                           class="btn btn-warning w-100 py-3 d-flex flex-column justify-content-center align-items-center text-white"
+                           style="font-weight:600;">
+                            <span style="font-size:22px;">■</span>
+                            <span>STOP</span>
+                        </a>
+                    </div>
+
+                    <div class="col-12">
+                        <a asp-action="Emergency"
+                           class="btn btn-danger w-100 py-3 d-flex flex-column justify-content-center align-items-center"
+                           style="font-weight:600;">
+                            <span style="font-size:22px;">⛔</span>
+                            <span>EMERGENZA</span>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </section>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+@if (ViewBag.ShowErrorModal == true)
+{
+    <script>
+        window.onload = function () {
+            var myModal = new bootstrap.Modal(document.getElementById('errorModal'));
+            myModal.show();
+        };
+    </script>
+}
